@@ -1,0 +1,20 @@
+# Usar uma imagem oficial do Node.js
+FROM node:18-alpine
+
+# Definir o diretório de trabalho no container
+WORKDIR /app
+
+# Copiar os arquivos de dependências do backend (package.json, etc.)
+COPY package*.json ./
+
+# Instalar as dependências
+RUN npm install
+
+# Copiar o código restante
+COPY . .
+
+# Expor a porta que o backend irá usar (ajuste conforme sua aplicação)
+EXPOSE 3000
+
+# Comando para iniciar o backend
+CMD ["npm", "start"]

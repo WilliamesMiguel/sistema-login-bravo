@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: .    # Usar o diretório atual
+      dockerfile: Dockerfile.backend   # Dockerfile específico para o backend
+    ports:
+      - "3000:3000"  # Porta para o backend
+    volumes:
+      - .:/app       # Sincronizar o código local com o container
+    environment:
+      - NODE_ENV=development
+
+  frontend:
+    build:
+      context: .    # Usar o diretório atual
+      dockerfile: Dockerfile.frontend  # Dockerfile específico para o frontend
+    ports:
+      - "80:80"      # Porta para o frontend
+    volumes:
+      - .:/app       # Sincronizar o código local com o container
+    environment:
+      - NODE_ENV=production

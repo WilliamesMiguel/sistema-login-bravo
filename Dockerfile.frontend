@@ -1,0 +1,29 @@
+# Usar uma imagem do Node.js para construir o projeto
+FROM node:18-alpine as build
+
+# Definir o diretório de trabalho no container
+WORKDIR /app
+
+# Copiar os arquivos de dependências
+COPY package*.json ./
+
+# Instalar as dependências
+RUN npm install
+
+# Copiar o código restante
+COPY . .
+
+# Fazer a build da aplicação frontend
+RUN npm run build
+
+# Usar Nginx para servir o frontend em produção
+FROM nginx:alpine
+
+# Copiar os arquivos estáticos da build para o Nginx
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Expor a porta 80 para servir o frontend
+EXPOSE 80
+
+# Comando para rodar o Nginx
+CMD ["nginx", "-g", "daemon off;"]
